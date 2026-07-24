@@ -14,14 +14,6 @@ jobs:
     steps:
       - name: "Run AI Code Review"
         uses: petarzarkov/gemini-code-review-action@latest
-        with:
-          model: gemini-3.0-pro
-
-          enable_conversation_context: true
-
-          skip_draft_prs: true
-
-          language: English
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
