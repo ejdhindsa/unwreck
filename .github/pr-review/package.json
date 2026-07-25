@@ -1,0 +1,10 @@
+{
+  "name": "pr-review",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI PR reviewer — single tool-less Anthropic Messages API call.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0"
+  }
+}
