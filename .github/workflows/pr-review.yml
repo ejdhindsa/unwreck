@@ -1,0 +1,55 @@
+name: AI PR Review
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, synchronize, reopened]
+    paths-ignore:
+      - "**/package-lock.json"
+      - "**/pnpm-lock.yaml"
+      - "**/yarn.lock"
+      - "dist/**"
+      - "build/**"
+      - "node_modules/**"
+      - "coverage/**"
+      - "**/*.min.js"
+      - "**/*.snap"
+
+# Debounce rapid pushes: a new push to the same PR cancels the in-progress review.
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+# Least privilege. contents:read for checkout; pull-requests:write to post the review.
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    # Skip drafts and any bot-authored event (self-trigger guard).
+    if: >-
+      github.event.pull_request.draft == false &&
+      github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0 # need base + head history for git diff
+
+      - name: Install reviewer deps
+        working-directory: .github/pr-review
+        run: npm ci
+
+      - name: Run review
+        working-directory: .github/pr-review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+          EVENT_ACTION: ${{ github.event.action }}
+          REVIEW_MODEL: claude-sonnet-5
+        run: node review.mjs
