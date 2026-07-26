@@ -1,11 +1,9 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
-    <h1>unwreck</h1>
+    <router-view />
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
