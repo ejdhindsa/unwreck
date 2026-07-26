@@ -1,8 +1,8 @@
-import { createWebHistory, createRouter } from "vue-router";
+import { createWebHistory, createMemoryHistory, createRouter } from "vue-router";
 
 import { Routes, Path } from "../types/routes.ts";
-import HomeView from "../views/Home.vue";
-import ProjectView from "../views/Project.vue";
+import HomeView from "../views/HomeView.vue";
+import ProjectView from "../views/ProjectView.vue";
 
 const routes = [
   {
@@ -18,6 +18,6 @@ const routes = [
 ];
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
   routes,
 });

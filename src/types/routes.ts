@@ -5,5 +5,5 @@ export const Routes = {
 
 export const Path = {
   Home: "/",
-  Project: "project/:slug",
+  Project: "/project/:slug",
 } as const;
