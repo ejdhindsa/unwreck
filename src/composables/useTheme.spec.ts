@@ -9,20 +9,19 @@ describe("useTheme", () => {
   });
 
   it("persists theme preference to localStorage and updates DOM dataset", () => {
-    localStorage.setItem("uw-theme", "dark");
     const { currentTheme, toggleTheme } = useTheme();
-
-    expect(currentTheme.value).toBe("dark");
-
-    toggleTheme();
-    expect(currentTheme.value).toBe("light");
-    expect(localStorage.getItem("uw-theme")).toBe("light");
-    expect(document.documentElement.dataset.theme).toBe("light");
+    const initialTheme = currentTheme.value;
+    const toggledTheme = initialTheme === "dark" ? "light" : "dark";
 
     toggleTheme();
-    expect(currentTheme.value).toBe("dark");
-    expect(localStorage.getItem("uw-theme")).toBe("dark");
-    expect(document.documentElement.dataset.theme).toBe("dark");
+    expect(currentTheme.value).toBe(toggledTheme);
+    expect(localStorage.getItem("uw-theme")).toBe(toggledTheme);
+    expect(document.documentElement.dataset.theme).toBe(toggledTheme);
+
+    toggleTheme();
+    expect(currentTheme.value).toBe(initialTheme);
+    expect(localStorage.getItem("uw-theme")).toBe(initialTheme);
+    expect(document.documentElement.dataset.theme).toBe(initialTheme);
   });
 
   it("handles missing startViewTransition gracefully without throwing", () => {

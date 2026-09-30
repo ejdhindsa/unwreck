@@ -1,10 +1,10 @@
 import { ref } from "vue";
 import { resolve, setTheme, type ResolvedTheme } from "@unwreck/core/theme";
 
-const currentTheme = ref<ResolvedTheme>("light");
-
 export function useTheme() {
-  if (typeof window !== "undefined") {
+  const currentTheme = ref<ResolvedTheme>("light");
+
+  if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
     currentTheme.value = resolve();
   }
 
@@ -30,3 +30,4 @@ export function useTheme() {
     toggleTheme,
   };
 }
+
