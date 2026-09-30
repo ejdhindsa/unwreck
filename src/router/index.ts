@@ -1,8 +1,7 @@
 import { createWebHistory, createMemoryHistory, createRouter } from "vue-router";
 
-import { Routes, Path } from "../types/routes.ts";
+import { Routes, Path } from "../types/routes";
 import HomeView from "../views/HomeView.vue";
-import ProjectView from "../views/ProjectView.vue";
 
 const routes = [
   {
@@ -11,9 +10,8 @@ const routes = [
     component: HomeView,
   },
   {
-    name: Routes.Project,
-    path: Path.Project,
-    component: ProjectView,
+    path: "/:pathMatch(.*)*",
+    redirect: Path.Home,
   },
 ];
 

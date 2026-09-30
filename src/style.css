@@ -1,9 +1,21 @@
-* {
-  box-sizing: border-box;
+body {
+  background-color: var(--uw-bg-canvas);
+  color: var(--uw-fg-default);
+  font-family: var(--uw-font-sans);
+  transition:
+    background-color var(--uw-duration-slow) var(--uw-easing-standard),
+    color var(--uw-duration-slow) var(--uw-easing-standard);
 }
 
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--uw-duration-slow);
+  animation-timing-function: var(--uw-easing-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
 }
