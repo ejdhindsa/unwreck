@@ -1,10 +1,16 @@
 import { ref } from "vue";
 import { resolve, setTheme, type ResolvedTheme } from "@unwreck/core/theme";
 
+const currentTheme = ref<ResolvedTheme>("light");
+
 export function useTheme() {
-  const currentTheme = ref<ResolvedTheme>(resolve());
+  if (typeof window !== "undefined") {
+    currentTheme.value = resolve();
+  }
 
   const toggleTheme = () => {
+    if (typeof window === "undefined") return;
+
     const nextTheme: ResolvedTheme = currentTheme.value === "dark" ? "light" : "dark";
 
     const update = () => {
